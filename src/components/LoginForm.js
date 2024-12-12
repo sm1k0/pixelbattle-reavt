@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { getDatabase, ref, get, set } from "firebase/database";
+import "./LoginForm.css"; // Подключаем CSS файл
 
 function LoginForm({ onLogin }) {
   const [username, setUsername] = useState("");
@@ -10,17 +11,27 @@ function LoginForm({ onLogin }) {
     if (!username) return alert("Введите имя пользователя!");
 
     try {
-      // Проверка на уникальность имени
-      const response = await axios.get("http://localhost:3001/users");
-      const existingUser = response.data.find((user) => user.username === username);
+      const db = getDatabase();
+      const usersRef = ref(db, "users");
+
+      // Загружаем всех пользователей
+      const snapshot = await get(usersRef);
+      const users = snapshot.exists() ? snapshot.val() : {};
+
+      // Проверяем, существует ли пользователь
+      const existingUser = Object.values(users).find(
+        (user) => user.username === username
+      );
 
       if (existingUser) {
         setError("Имя пользователя уже существует!");
         return;
       }
 
-      // Сохраняем нового пользователя
-      await axios.post("http://localhost:3001/users", { username });
+      // Добавляем нового пользователя
+      const newUserId = `user_${Date.now()}`; // Уникальный ID пользователя
+      const userRef = ref(db, `users/${newUserId}`);
+      await set(userRef, { username });
 
       // Передаем данные в родительский компонент
       onLogin(username);
@@ -30,17 +41,20 @@ function LoginForm({ onLogin }) {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Введите имя пользователя"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <button type="submit">Войти</button>
-      </form>
-      {error && <p>{error}</p>}
+    <div className="login-container">
+      <div className="login-form">
+        <div className="typing-effect">Введите имя пользователя</div>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Введите имя пользователя"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <button type="submit">Войти</button>
+        </form>
+        {error && <p>{error}</p>}
+      </div>
     </div>
   );
 }
