@@ -33,6 +33,7 @@ function PixelBattle() {
     // Удаляем старые сообщения спустя 5 минут
     const interval = setInterval(() => {
       deleteOldMessages();
+      fetchPixels();
     }, 100); // Проверяем каждую минуту
 
     return () => clearInterval(interval); // Очистка интервала при размонтировании компонента
