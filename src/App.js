@@ -14,10 +14,16 @@ function App() {
     }
   }, []);
 
+  const handleLogin = (username) => {
+    // Сохраняем пользователя в куки
+    Cookies.set("username", username, { expires: 7 });
+    setUser({ username });
+  };
+
   return (
     <div>
       {!user ? (
-        <LoginForm onLogin={(userData) => setUser(userData)} />
+        <LoginForm onLogin={handleLogin} />
       ) : (
         <PixelBattle user={user} />
       )}
