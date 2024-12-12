@@ -1,0 +1,38 @@
+{
+  "users": [
+    {
+      "id": "572e",
+      "username": "йцу"
+    }
+  ],
+  "pixels": [
+    {
+      "id": "5f7f",
+      "x": 12,
+      "y": 68,
+      "color": "#0000ff"
+    }
+  ],
+  "messages": [
+    {
+      "id": "613c",
+      "message": "zxc: asdasd",
+      "timestamp": "2024-12-12T17:11:12.442Z"
+    },
+    {
+      "id": "b902",
+      "message": "zxc: dasda",
+      "timestamp": "2024-12-12T17:11:19.416Z"
+    },
+    {
+      "id": "0748",
+      "message": "Аноним: ваы",
+      "timestamp": "2024-12-12T17:12:41.034Z"
+    },
+    {
+      "id": "6f69",
+      "message": "Аноним: ываацуцавы",
+      "timestamp": "2024-12-12T17:12:44.668Z"
+    }
+  ]
+}
